@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\User\\Desktop\\DEV Projects\\Level -2 Assignments\\Assignment-9\\AutoMedics-backend\\logs\\winston\\errors\\.aee9b05cb51f1bbcd21a0ac1ee00d84c9c2d35d9-audit.json",
+    "files": [
+        {
+            "date": 1697140069256,
+            "name": "C:\\Users\\User\\Desktop\\DEV Projects\\Level -2 Assignments\\Assignment-9\\AutoMedics-backend\\logs\\winston\\errors\\phu-2023-13-10-01-error.log",
+            "hash": "4ced88c275193acd6f09cfcd1d8dd2ff99d90cd3980357a44d47fde654c46222"
+        },
+        {
+            "date": 1697140907552,
+            "name": "C:\\Users\\User\\Desktop\\DEV Projects\\Level -2 Assignments\\Assignment-9\\AutoMedics-backend\\logs\\winston\\errors\\phu-2023-13-10-02-error.log",
+            "hash": "8a83c257920e7eaaca7281b1843ab018ef7bc83257c90c8a652ad14eaf3515d0"
+        }
+    ],
+    "hashType": "sha256"
+}

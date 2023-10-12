@@ -1,20 +1,18 @@
+import { green, red } from 'console-log-colors';
 import { Server } from 'http';
 import app from './app';
 import config from './config';
 import { errorlogger, logger } from './shared/logger';
 
-
 async function bootstrap() {
-
   const server: Server = app.listen(config.port, () => {
-    logger.info(`Server running on port ${config.port}`);
+    console.log(green(`Server running on port ${config.port}`));
   });
 
   const exitHandler = () => {
-
     if (server) {
       server.close(() => {
-        logger.info('Server closed');
+        console.log(red('Server closed'));
       });
     }
     process.exit(1);
