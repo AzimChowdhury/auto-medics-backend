@@ -10,4 +10,10 @@ router.post(
   AuthController.SignUp
 );
 
+router.post(
+  '/signin',
+  validateRequest(AuthValidation.SignInZodSchema),
+  AuthController.SignIn
+);
+
 export const AuthRoutes = router;

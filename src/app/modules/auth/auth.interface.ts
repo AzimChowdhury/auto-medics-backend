@@ -19,3 +19,7 @@ export type ILoginUserResponse = {
 export type IRefreshTokenResponse = {
   accessToken: string;
 };
+
+export type IAuthErrorResponse = {
+  message: string;
+};

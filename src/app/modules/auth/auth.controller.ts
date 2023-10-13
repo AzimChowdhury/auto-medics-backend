@@ -11,7 +11,7 @@ const SignUp = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'create successful',
+      message: 'creation successful',
       data: result,
     });
   } else {
@@ -24,6 +24,26 @@ const SignUp = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const SignIn = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.SignIn(req.body);
+  if (result?.accessToken) {
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Log in successful',
+      data: result,
+    });
+  } else {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_IMPLEMENTED,
+      success: false,
+      message: 'Log in  failed',
+      data: result,
+    });
+  }
+});
+
 export const AuthController = {
   SignUp,
+  SignIn,
 };
