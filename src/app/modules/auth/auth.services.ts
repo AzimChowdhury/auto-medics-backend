@@ -111,7 +111,7 @@ const SignUp = async (
 
 const SignIn = async (
   data: ISignInUser
-): Promise<ILoginUserResponse | undefined> => {
+): Promise<ILoginUserResponse | undefined | any> => {
   const { email, password } = data;
   const customers = await prisma.customer.findFirst({
     where: {
