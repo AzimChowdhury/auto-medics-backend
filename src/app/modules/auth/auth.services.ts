@@ -14,11 +14,7 @@ const SignUp = async (
 ): Promise<ILoginUserResponse | undefined> => {
   const { role, email } = data;
   let { password } = data;
-  if (
-    role !== ENUM_USER_ROLE.ADMIN &&
-    role !== ENUM_USER_ROLE.CUSTOMER &&
-    role !== ENUM_USER_ROLE.SPECIALIST
-  ) {
+  if (role !== ENUM_USER_ROLE.CUSTOMER) {
     throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'Invalid role');
   }
 
@@ -48,43 +44,7 @@ const SignUp = async (
   password = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
 
   let result;
-  if (role === ENUM_USER_ROLE.ADMIN) {
-    await prisma.admin.create({ data: { email, password } }).then(() => {
-      const accessToken = jwtHelpers.createToken(
-        { email, role },
-        config.jwt.secret as Secret,
-        config.jwt.expires_in as string
-      );
-
-      const refreshToken = jwtHelpers.createToken(
-        { email, role },
-        config.jwt.refresh_secret as Secret,
-        config.jwt.refresh_expires_in as string
-      );
-      result = {
-        accessToken,
-        refreshToken,
-      };
-    });
-  } else if (role === ENUM_USER_ROLE.SPECIALIST) {
-    await prisma.specialist.create({ data: { email, password } }).then(() => {
-      const accessToken = jwtHelpers.createToken(
-        { email, role },
-        config.jwt.secret as Secret,
-        config.jwt.expires_in as string
-      );
-
-      const refreshToken = jwtHelpers.createToken(
-        { email, role },
-        config.jwt.refresh_secret as Secret,
-        config.jwt.refresh_expires_in as string
-      );
-      result = {
-        accessToken,
-        refreshToken,
-      };
-    });
-  } else if (role === ENUM_USER_ROLE.CUSTOMER) {
+  if (role === ENUM_USER_ROLE.CUSTOMER) {
     await prisma.customer.create({ data: { email, password } }).then(() => {
       const accessToken = jwtHelpers.createToken(
         { email, role },
@@ -128,7 +88,6 @@ const SignIn = async (
       email,
     },
   });
-
   if (!customers && !specialists && !admins) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exists');
   }
