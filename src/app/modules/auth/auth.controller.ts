@@ -5,7 +5,6 @@ import sendResponse from '../../../shared/sendResponse';
 import { AuthServices } from './auth.services';
 
 const SignUp = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   const result = await AuthServices.SignUp(req.body);
 
   if (result?.accessToken) {
