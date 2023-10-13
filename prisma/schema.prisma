@@ -30,6 +30,8 @@ model Specialist {
   image     String?
   skill     String?
   rating    Int?
+  service   Services   @relation(fields: [serviceId], references: [id])
+  serviceId String
   Bookings  Bookings[]
 }
 
@@ -45,12 +47,14 @@ model Customer {
 }
 
 model Services {
-  id          String     @id @default(uuid())
-  name        String     @unique
+  id          String       @id @default(uuid())
+  name        String       @unique
   description String?
   price       Int
   time        Float?
+  image       String?
   Bookings    Bookings[]
+  Specialist  Specialist[]
 }
 
 model Bookings {

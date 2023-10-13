@@ -22,6 +22,7 @@ CREATE TABLE "Specialist" (
     "image" TEXT,
     "skill" TEXT,
     "rating" INTEGER,
+    "serviceId" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "Specialist_pkey" PRIMARY KEY ("id")
 );
@@ -46,6 +47,7 @@ CREATE TABLE "Services" (
     "description" TEXT,
     "price" INTEGER NOT NULL,
     "time" DOUBLE PRECISION,
+    "image" TEXT,
 
     CONSTRAINT "Services_pkey" PRIMARY KEY ("id")
 );
@@ -68,10 +70,10 @@ CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 CREATE UNIQUE INDEX "Specialist_email_key" ON "Specialist"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Customer_email_key" ON "Customer"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Services_name_key" ON "Services"("name");
+
+-- AddForeignKey
+ALTER TABLE "Specialist" ADD CONSTRAINT "Specialist_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Bookings" ADD CONSTRAINT "Bookings_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
