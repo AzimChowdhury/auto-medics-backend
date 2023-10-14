@@ -12,4 +12,10 @@ router.get(
 
 router.get('/admins', auth(ENUM_USER_ROLE.ADMIN), UserController.getAllAdmins);
 
+router.get(
+  '/specialists',
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.getAllSpecialists
+);
+
 export const UserRoutes = router;

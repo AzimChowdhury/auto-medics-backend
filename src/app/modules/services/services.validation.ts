@@ -8,6 +8,9 @@ const createService = z.object({
     price: z.number({
       required_error: 'price is required',
     }),
+    specialistId: z.string({
+      required_error: 'specialist Id is required',
+    }),
     description: z.string().optional(),
     time: z.number().optional(),
     image: z.string().optional(),

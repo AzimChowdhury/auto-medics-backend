@@ -32,7 +32,21 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllSpecialists = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, customerFilterableFields);
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  const result = await UserServices.getAllSpecialists(filters, options);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Specialists fetched successfully',
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
 export const UserController = {
   getAllCustomers,
   getAllAdmins,
+  getAllSpecialists,
 };
