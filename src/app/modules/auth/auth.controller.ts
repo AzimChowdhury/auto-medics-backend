@@ -4,8 +4,8 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { AuthServices } from './auth.services';
 
-const SignUp = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthServices.SignUp(req.body);
+const customerSignUp = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.customerSignUp(req.body);
 
   if (result?.accessToken) {
     sendResponse(res, {
@@ -43,7 +43,30 @@ const SignIn = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.createAdmin(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'admin created successfully',
+    data: result,
+  });
+});
+
+const createSpecialist = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.createSpecialist(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Specialist create successfully',
+    data: result,
+  });
+});
+
 export const AuthController = {
-  SignUp,
+  customerSignUp,
   SignIn,
+  createAdmin,
+  createSpecialist,
 };

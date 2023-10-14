@@ -213,10 +213,20 @@ const updateMyProfile = async (email: string, updateData: any) => {
   }
 };
 
+const deleteAdmin = async (email: string) => {
+  const result = await prisma.admin.delete({
+    where: {
+      email,
+    },
+  });
+  return result;
+};
+
 export const UserServices = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
   getMyProfileInfo,
   updateMyProfile,
+  deleteAdmin,
 };

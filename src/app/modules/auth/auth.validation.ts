@@ -33,8 +33,59 @@ const refreshTokenZodSchema = z.object({
   }),
 });
 
+const createAdminZodSchema = z.object({
+  body: z.object({
+    name: z.string({
+      required_error: 'name is required',
+    }),
+    email: z.string({
+      required_error: 'email is required',
+    }),
+    password: z.string({
+      required_error: 'Password is required',
+    }),
+    contactNo: z.string({
+      required_error: 'Contact No is required',
+    }),
+    address: z.string({
+      required_error: 'Address is required',
+    }),
+    image: z.string({
+      required_error: 'Image is required',
+    }),
+  }),
+});
+
+const createSpecialistZodSchema = z.object({
+  body: z.object({
+    name: z.string({
+      required_error: 'name is required',
+    }),
+    email: z.string({
+      required_error: 'email is required',
+    }),
+    password: z.string({
+      required_error: 'Password is required',
+    }),
+    contactNo: z.string({
+      required_error: 'Contact No is required',
+    }),
+    address: z.string({
+      required_error: 'Address is required',
+    }),
+    image: z.string({
+      required_error: 'Image is required',
+    }),
+    skill: z.string({
+      required_error: 'Skill is required',
+    }),
+  }),
+});
+
 export const AuthValidation = {
   SignInZodSchema,
   refreshTokenZodSchema,
   signUpZodSchema,
+  createAdminZodSchema,
+  createSpecialistZodSchema,
 };

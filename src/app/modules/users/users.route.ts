@@ -30,4 +30,6 @@ router.patch(
   UserController.updateMyProfile
 );
 
+router.delete('/admin', auth(ENUM_USER_ROLE.ADMIN), UserController.deleteAdmin);
+
 export const UserRoutes = router;

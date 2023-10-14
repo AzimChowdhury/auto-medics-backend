@@ -1,3 +1,4 @@
+import { Admin, Specialist } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
@@ -9,7 +10,7 @@ import prisma from '../../../shared/prisma';
 import { ILoginUserResponse, ISignInUser, ISignUpUser } from './auth.interface';
 import { AuthUtils } from './auth.utils';
 
-const SignUp = async (
+const customerSignUp = async (
   data: ISignUpUser
 ): Promise<ILoginUserResponse | undefined> => {
   const { role, email } = data;
@@ -126,7 +127,83 @@ const SignIn = async (
   return finalResult;
 };
 
+const createAdmin = async (data: Admin): Promise<Admin | undefined> => {
+  const { name, email, contactNo, address, image } = data;
+  let { password } = data;
+
+  const customers = await prisma.customer.findFirst({
+    where: {
+      email,
+    },
+  });
+  const specialists = await prisma.specialist.findFirst({
+    where: {
+      email,
+    },
+  });
+  const admins = await prisma.admin.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  if (customers || specialists || admins) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Email has already been registered'
+    );
+  }
+
+  password = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
+
+  const result = await prisma.admin.create({
+    data: { name, email, password, contactNo, address, image },
+  });
+
+  return result;
+};
+
+const createSpecialist = async (
+  data: Specialist
+): Promise<Specialist | undefined> => {
+  const { name, email, contactNo, address, image, skill } = data;
+  let { password } = data;
+
+  const customers = await prisma.customer.findFirst({
+    where: {
+      email,
+    },
+  });
+  const specialists = await prisma.specialist.findFirst({
+    where: {
+      email,
+    },
+  });
+  const admins = await prisma.admin.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  if (customers || specialists || admins) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Email has already been registered'
+    );
+  }
+
+  password = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
+
+  const result = await prisma.specialist.create({
+    data: { name, email, password, contactNo, address, image, skill },
+  });
+
+  return result;
+};
+
 export const AuthServices = {
-  SignUp,
+  customerSignUp,
   SignIn,
+  createAdmin,
+  createSpecialist,
 };

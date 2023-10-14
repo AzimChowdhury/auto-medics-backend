@@ -74,10 +74,22 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.query;
+  const result = await UserServices.deleteAdmin(email as string);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin Deleted successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
   getMyProfileInfo,
   updateMyProfile,
+  deleteAdmin,
 };
