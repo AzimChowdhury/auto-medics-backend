@@ -60,9 +60,24 @@ const getMyProfileInfo = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const { email, ...updateData } = req.body;
+  const result = await UserServices.updateMyProfile(
+    email as string,
+    updateData as any
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'profile info updated successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
   getMyProfileInfo,
+  updateMyProfile,
 };

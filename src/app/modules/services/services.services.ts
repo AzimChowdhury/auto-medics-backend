@@ -37,7 +37,6 @@ const getAllServices = async (
 
   const result = await prisma.services.findMany({
     include: {
-      specialist: true,
       Bookings: true,
     },
     where: whereConditions,

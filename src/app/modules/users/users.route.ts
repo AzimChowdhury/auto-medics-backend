@@ -20,4 +20,14 @@ router.get(
 
 router.get('/profile', UserController.getMyProfileInfo);
 
+router.patch(
+  '/update-profile',
+  auth(
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.CUSTOMER,
+    ENUM_USER_ROLE.SPECIALIST
+  ),
+  UserController.updateMyProfile
+);
+
 export const UserRoutes = router;

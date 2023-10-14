@@ -15,7 +15,7 @@ model Admin {
   name      String?
   email     String  @unique
   password  String
-  contactNo Int?
+  contactNo String?
   address   String?
   image     String?
 }
@@ -25,12 +25,11 @@ model Specialist {
   name      String?
   email     String     @unique
   password  String
-  contactNo Int?
+  contactNo String?
   address   String?
   image     String?
   skill     String?
   rating    Int?
-  Bookings  Bookings[]
   Services  Services[]
 }
 
@@ -39,7 +38,7 @@ model Customer {
   name      String?
   email     String     @unique
   password  String
-  contactNo Int?
+  contactNo String?
   address   String?
   image     String?
   Bookings  Bookings[]
@@ -58,12 +57,10 @@ model Services {
 }
 
 model Bookings {
-  id           String     @id @default(uuid())
-  customer     Customer   @relation(fields: [customerId], references: [id])
-  customerId   String
-  specialist   Specialist @relation(fields: [specialistId], references: [id])
-  specialistId String
-  service      Services   @relation(fields: [serviceId], references: [id])
-  serviceId    String
-  timeSlot     DateTime
+  id         String   @id @default(uuid())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  service    Services @relation(fields: [serviceId], references: [id])
+  serviceId  String
+  timeSlot   DateTime
 }

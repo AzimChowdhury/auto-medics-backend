@@ -179,9 +179,44 @@ const getMyProfileInfo = async (email: string, role: string) => {
   }
 };
 
+const updateMyProfile = async (email: string, updateData: any) => {
+  const { name, contactNo, address, image, role, skill } = updateData;
+  if (role === ENUM_USER_ROLE.ADMIN) {
+    const newData = { name, contactNo, address, image };
+    const result = await prisma.admin.update({
+      where: {
+        email,
+      },
+      data: newData,
+    });
+    return result;
+  } else if (role === ENUM_USER_ROLE.CUSTOMER) {
+    const newData = { name, contactNo, address, image };
+    const result = await prisma.customer.update({
+      where: {
+        email,
+      },
+      data: newData,
+    });
+    return result;
+  } else if (role === ENUM_USER_ROLE.SPECIALIST) {
+    const newData = { name, contactNo, address, image, skill };
+    const result = await prisma.specialist.update({
+      where: {
+        email,
+      },
+      data: newData,
+    });
+    return result;
+  } else {
+    throw new ApiError(httpStatus.NOT_MODIFIED, 'failed to update data');
+  }
+};
+
 export const UserServices = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
   getMyProfileInfo,
+  updateMyProfile,
 };
