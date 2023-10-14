@@ -18,4 +18,6 @@ router.get(
   UserController.getAllSpecialists
 );
 
+router.get('/profile', UserController.getMyProfileInfo);
+
 export const UserRoutes = router;

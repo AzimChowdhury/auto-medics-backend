@@ -1,4 +1,7 @@
 import { Prisma } from '@prisma/client';
+import httpStatus from 'http-status';
+import { ENUM_USER_ROLE } from '../../../enums/user';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
@@ -136,8 +139,49 @@ const getAllSpecialists = async (
   };
 };
 
+const getMyProfileInfo = async (email: string, role: string) => {
+  if (!email) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Invalid email');
+  }
+  if (
+    !role ||
+    (role !== ENUM_USER_ROLE.ADMIN &&
+      role !== ENUM_USER_ROLE.CUSTOMER &&
+      role !== ENUM_USER_ROLE.SPECIALIST)
+  ) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'invalid role');
+  }
+  if (role === ENUM_USER_ROLE.ADMIN) {
+    const result = await prisma.admin.findUnique({
+      where: {
+        email,
+      },
+    });
+    return result;
+  }
+  if (role === ENUM_USER_ROLE.CUSTOMER) {
+    const result = await prisma.customer.findUnique({
+      where: {
+        email,
+      },
+    });
+    return result;
+  }
+  if (role === ENUM_USER_ROLE.SPECIALIST) {
+    const result = await prisma.specialist.findUnique({
+      where: {
+        email,
+      },
+    });
+    return result;
+  } else {
+    return 'profile data not found';
+  }
+};
+
 export const UserServices = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
+  getMyProfileInfo,
 };

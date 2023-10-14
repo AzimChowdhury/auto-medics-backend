@@ -45,8 +45,24 @@ const getAllSpecialists = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyProfileInfo = catchAsync(async (req: Request, res: Response) => {
+  const { email, role } = req.query;
+
+  const result = await UserServices.getMyProfileInfo(
+    email as string,
+    role as string
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'profile info fetched successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllCustomers,
   getAllAdmins,
   getAllSpecialists,
+  getMyProfileInfo,
 };
