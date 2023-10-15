@@ -222,6 +222,45 @@ const deleteAdmin = async (email: string) => {
   return result;
 };
 
+const deleteCustomer = async (id: string) => {
+  // const customer = await prisma.customer.findFirst({
+  //   where: {
+  //     email,
+  //   },
+  // });
+  // if (!customer) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, 'Customer Not Found');
+  // }
+
+  try {
+    await prisma.$transaction(async tx => {
+      await tx.bookings.deleteMany({
+        where: { customerId: id },
+      });
+
+      await tx.customer.delete({
+        where: { id },
+      });
+    });
+
+    return { message: 'Customer and their bookings deleted successfully' };
+  } catch (error) {
+    throw new ApiError(
+      httpStatus.FAILED_DEPENDENCY,
+      'Failed to delete customer and his bookings'
+    );
+  }
+};
+
+const deleteSpecialist = async (email: string) => {
+  const result = await prisma.specialist.delete({
+    where: {
+      email,
+    },
+  });
+  return result;
+};
+
 export const UserServices = {
   getAllCustomers,
   getAllAdmins,
@@ -229,4 +268,6 @@ export const UserServices = {
   getMyProfileInfo,
   updateMyProfile,
   deleteAdmin,
+  deleteCustomer,
+  deleteSpecialist,
 };

@@ -85,6 +85,28 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.query;
+  const result = await UserServices.deleteCustomer(id as string);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Customer Deleted successfully',
+    data: result,
+  });
+});
+
+const deleteSpecialist = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.query;
+  const result = await UserServices.deleteSpecialist(email as string);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Specialist Deleted successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllCustomers,
   getAllAdmins,
@@ -92,4 +114,6 @@ export const UserController = {
   getMyProfileInfo,
   updateMyProfile,
   deleteAdmin,
+  deleteCustomer,
+  deleteSpecialist,
 };

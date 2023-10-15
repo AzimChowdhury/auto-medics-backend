@@ -31,5 +31,15 @@ router.patch(
 );
 
 router.delete('/admin', auth(ENUM_USER_ROLE.ADMIN), UserController.deleteAdmin);
+router.delete(
+  '/customer',
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.deleteCustomer
+);
+router.delete(
+  '/specialist',
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.deleteSpecialist
+);
 
 export const UserRoutes = router;
