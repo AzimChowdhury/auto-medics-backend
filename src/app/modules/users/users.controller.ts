@@ -97,8 +97,8 @@ const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteSpecialist = catchAsync(async (req: Request, res: Response) => {
-  const { email } = req.query;
-  const result = await UserServices.deleteSpecialist(email as string);
+  const { id } = req.query;
+  const result = await UserServices.deleteSpecialist(id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

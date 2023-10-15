@@ -124,6 +124,9 @@ const getAllSpecialists = async (
     where: whereConditions,
     skip,
     take: limit,
+    include: {
+      Services: true,
+    },
   });
   const total = await prisma.specialist.count({
     where: whereConditions,
@@ -252,10 +255,10 @@ const deleteCustomer = async (id: string) => {
   }
 };
 
-const deleteSpecialist = async (email: string) => {
+const deleteSpecialist = async (id: string) => {
   const result = await prisma.specialist.delete({
     where: {
-      email,
+      id,
     },
   });
   return result;
