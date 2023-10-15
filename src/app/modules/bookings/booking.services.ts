@@ -10,6 +10,16 @@ const getAllBookings = async () => {
   return result;
 };
 
+const deleteBookings = async (id: string) => {
+  const result = await prisma.bookings.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const BookingServices = {
   getAllBookings,
+  deleteBookings,
 };

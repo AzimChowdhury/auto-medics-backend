@@ -11,9 +11,15 @@ const createService = z.object({
     specialistId: z.string({
       required_error: 'specialist Id is required',
     }),
-    description: z.string().optional(),
-    time: z.number().optional(),
-    image: z.string().optional(),
+    description: z.string({
+      required_error: 'description is required',
+    }),
+    time: z.number({
+      required_error: 'time is required',
+    }),
+    image: z.string({
+      required_error: 'image is required',
+    }),
   }),
 });
 

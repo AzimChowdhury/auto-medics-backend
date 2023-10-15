@@ -7,7 +7,13 @@ const router = express.Router();
 router.get(
   '/all',
   auth(ENUM_USER_ROLE.ADMIN),
-  BookingController.getAllServices
+  BookingController.getAllBookings
+);
+
+router.delete(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
+  BookingController.deleteBookings
 );
 
 export const BookingRoutes = router;

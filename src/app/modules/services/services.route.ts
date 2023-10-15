@@ -14,5 +14,10 @@ router.post(
 );
 
 router.get('/', ServiceController.getAllServices);
+router.delete(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN),
+  ServiceController.deleteServices
+);
 
 export const ServiceRoutes = router;

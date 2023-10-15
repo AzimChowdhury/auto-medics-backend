@@ -58,7 +58,17 @@ const getAllServices = async (
   };
 };
 
+const deleteService = async (id: string) => {
+  const result = await prisma.services.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const ServicesService = {
   createServices,
   getAllServices,
+  deleteService,
 };
