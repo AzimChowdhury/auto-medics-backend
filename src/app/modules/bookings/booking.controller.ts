@@ -27,7 +27,19 @@ const deleteBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createBookings = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookingServices.createBookings(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Booked successfully',
+    data: result,
+  });
+});
+
 export const BookingController = {
   getAllBookings,
   deleteBookings,
+  createBookings,
 };
