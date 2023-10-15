@@ -1,5 +1,10 @@
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { ISOStringToDate, ISOStringToTime } from '../../../helpers/Date';
+import {
+  sendMailToCustomer,
+  sendMailToSpecialist,
+} from '../../../helpers/sendMail';
 import prisma from '../../../shared/prisma';
 
 const getAllBookings = async () => {
@@ -33,6 +38,16 @@ const createBookings = async (data: any) => {
   }
   const bookingData = { customerId: customer?.id, serviceId, timeSlot };
   const result = await prisma.bookings.create({ data: bookingData });
+
+  if (result?.id) {
+    const service = await prisma.services.findFirst({
+      where: { id: result?.serviceId },
+    });
+    const date = ISOStringToDate(timeSlot);
+    const time = ISOStringToTime(timeSlot);
+    await sendMailToCustomer({ service, customer, date, time });
+    await sendMailToSpecialist({ service, customer, date, time });
+  }
   return result;
 };
 
