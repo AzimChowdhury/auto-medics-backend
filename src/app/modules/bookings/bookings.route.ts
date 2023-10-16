@@ -6,11 +6,7 @@ import { BookingController } from './booking.controller';
 import { BookingValidation } from './booking.validation';
 const router = express.Router();
 
-router.get(
-  '/all',
-  auth(ENUM_USER_ROLE.ADMIN),
-  BookingController.getAllBookings
-);
+router.get('/', BookingController.getAllBookings);
 
 router.delete(
   '/',

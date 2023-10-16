@@ -42,6 +42,7 @@ model Customer {
   address   String?
   image     String?
   Bookings  Bookings[]
+  Reviews   Reviews[]
 }
 
 model Services {
@@ -63,4 +64,13 @@ model Bookings {
   service    Services @relation(fields: [serviceId], references: [id])
   serviceId  String
   timeSlot   DateTime
+}
+
+model Reviews {
+  id            String   @id @default(uuid())
+  customerEmail String   @unique
+  customerId    String   @unique
+  customer      Customer @relation(fields: [customerId], references: [id])
+  rating        Int
+  comment       String
 }
