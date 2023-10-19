@@ -8,6 +8,14 @@ const createServices = async (data: Services) => {
   const result = await prisma.services.create({
     data,
   });
+  if (result) {
+    await prisma.publicNotification.create({
+      data: {
+        title: `A new service is added`,
+        details: `${data?.name} service is added to auto-medics.It will cost $ ${data?.price}.`,
+      },
+    });
+  }
   return result;
 };
 

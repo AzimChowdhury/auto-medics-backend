@@ -58,6 +58,24 @@ const deleteBookings = async (id: string) => {
       id,
     },
   });
+  if (result) {
+    const { customerId, serviceId } = result;
+    const customer = await prisma.customer.findFirst({
+      where: { id: customerId },
+    });
+    const service = await prisma.services.findFirst({
+      where: { id: serviceId },
+    });
+    if (customer && service) {
+      await prisma.myNotification.create({
+        data: {
+          email: customer?.email,
+          title: `${service?.name} is cancelled`,
+          details: ` your ${service?.name} service booking is cancelled by authority. Contact for details.`,
+        },
+      });
+    }
+  }
   return result;
 };
 
@@ -79,9 +97,21 @@ const createBookings = async (data: any) => {
       where: { id: result?.serviceId },
       include: { specialist: true },
     });
-    const admins = await prisma.admin.findMany();
     const date = ISOStringToDate(timeSlot);
     const time = ISOStringToTime(timeSlot);
+
+    if (service) {
+      await prisma.myNotification.create({
+        data: {
+          email: customer?.email,
+          title: `${service?.name} is booked`,
+          details: `${service?.name} service is booked for you on ${date} and ${time} at $${service?.price}`,
+        },
+      });
+    }
+
+    const admins = await prisma.admin.findMany();
+
     await sendMailToCustomer({ service, customer, date, time });
     await sendMailToSpecialist({
       service,

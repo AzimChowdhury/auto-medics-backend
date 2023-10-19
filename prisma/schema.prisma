@@ -74,3 +74,20 @@ model Reviews {
   rating        Int
   comment       String
 }
+
+model MyNotification {
+  id        String   @id @default(uuid())
+  email     String
+  title     String
+  details   String
+  readen    Boolean  @default(false)
+  timestamp DateTime @default(now())
+}
+
+model PublicNotification {
+  id        String   @id @default(uuid())
+  title     String
+  details   String
+  readers   String[]
+  timestamp DateTime @default(now())
+}
