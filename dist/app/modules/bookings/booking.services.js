@@ -66,6 +66,24 @@ const deleteBookings = (id) => __awaiter(void 0, void 0, void 0, function* () {
             id,
         },
     });
+    if (result) {
+        const { customerId, serviceId } = result;
+        const customer = yield prisma_1.default.customer.findFirst({
+            where: { id: customerId },
+        });
+        const service = yield prisma_1.default.services.findFirst({
+            where: { id: serviceId },
+        });
+        if (customer && service) {
+            yield prisma_1.default.myNotification.create({
+                data: {
+                    email: customer === null || customer === void 0 ? void 0 : customer.email,
+                    title: `${service === null || service === void 0 ? void 0 : service.name} is cancelled`,
+                    details: ` your ${service === null || service === void 0 ? void 0 : service.name} service booking is cancelled by authority. Contact for details.`,
+                },
+            });
+        }
+    }
     return result;
 });
 const createBookings = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -85,9 +103,18 @@ const createBookings = (data) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id: result === null || result === void 0 ? void 0 : result.serviceId },
             include: { specialist: true },
         });
-        const admins = yield prisma_1.default.admin.findMany();
         const date = (0, Date_1.ISOStringToDate)(timeSlot);
         const time = (0, Date_1.ISOStringToTime)(timeSlot);
+        if (service) {
+            yield prisma_1.default.myNotification.create({
+                data: {
+                    email: customer === null || customer === void 0 ? void 0 : customer.email,
+                    title: `${service === null || service === void 0 ? void 0 : service.name} is booked`,
+                    details: `${service === null || service === void 0 ? void 0 : service.name} service is booked for you on ${date} and ${time} at $${service === null || service === void 0 ? void 0 : service.price}`,
+                },
+            });
+        }
+        const admins = yield prisma_1.default.admin.findMany();
         yield (0, sendMail_1.sendMailToCustomer)({ service, customer, date, time });
         yield (0, sendMail_1.sendMailToSpecialist)({
             service,

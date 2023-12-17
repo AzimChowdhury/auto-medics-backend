@@ -20,6 +20,14 @@ const createServices = (data) => __awaiter(void 0, void 0, void 0, function* () 
     const result = yield prisma_1.default.services.create({
         data,
     });
+    if (result) {
+        yield prisma_1.default.publicNotification.create({
+            data: {
+                title: `A new service is added`,
+                details: `${data === null || data === void 0 ? void 0 : data.name} service is added to auto-medics.It will cost $ ${data === null || data === void 0 ? void 0 : data.price}.`,
+            },
+        });
+    }
     return result;
 });
 const getAllServices = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {

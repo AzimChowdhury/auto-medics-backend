@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_route_1 = require("../modules/auth/auth.route");
 const bookings_route_1 = require("../modules/bookings/bookings.route");
+const notification_route_1 = require("../modules/notifications/notification.route");
 const review_route_1 = require("../modules/reviews/review.route");
 const services_route_1 = require("../modules/services/services.route");
 const users_route_1 = require("../modules/users/users.route");
@@ -30,6 +31,10 @@ const moduleRoutes = [
     {
         path: '/reviews',
         routes: review_route_1.ReviewRoutes,
+    },
+    {
+        path: '/notifications',
+        routes: notification_route_1.NotificationRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.routes));
