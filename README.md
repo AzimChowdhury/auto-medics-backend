@@ -34,6 +34,29 @@ Backend
 
 
 
+### Credentials
+
+User can create account and login from sign up page and explore from users perspective.
+
+#### For exploring the Admin dashboard can use the following credentials
+
+- Email
+<pre>
+<code id="code-to-copy">
+admin@gmail.com
+</code>
+</pre>
+
+- Password 
+<pre>
+<code id="code-to-copy">
+123456
+</code>
+</pre>
+
+
+
+
 
 ### Contact with me
 
